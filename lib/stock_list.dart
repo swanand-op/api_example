@@ -27,7 +27,7 @@ class _StockListState extends State<StockList> {
             return Center(child: Text("error occoured ${snapshot.error}"),);
           }
           if(snapshot.hasData) {
-            List<Map> stocks = snapshot.data;
+            List<dynamic> stocks = snapshot.data;
             return ListView.builder(
               itemCount: stocks.length,
               itemBuilder: (context, index) {

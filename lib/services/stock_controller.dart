@@ -16,14 +16,4 @@ class StockController {
     return stocks;
   }
 
-  Future<Map> getStockPrice(symbol) async {
-    Map stock = {};
-    http.Response response = await http.get(Uri.parse('https://api.twelvedata.com/price?symbol=$symbol&apikey=f32767965dbd48a9b080e3e6900891e9'));
-    if(response.statusCode == 200) {
-      String jsonString = response.body;
-      stock = jsonDecode(jsonString);
-    }
-    return stock;
-  }
-
 }
