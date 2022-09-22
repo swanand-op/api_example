@@ -1,3 +1,4 @@
+import 'package:api_example/services/stock.dart';
 import 'package:api_example/services/stock_controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,17 +25,22 @@ class _StockListState extends State<StockList> {
         builder: (BuildContext context, AsyncSnapshot snapshot){
           if(snapshot.hasError) {
             print(snapshot.error);
-            return Center(child: Text("error occoured ${snapshot.error}"),);
+            return Center(child: Text("error occurred ${snapshot.error}"),);
           }
           if(snapshot.hasData) {
             List<dynamic> stocks = snapshot.data;
             return ListView.builder(
               itemCount: stocks.length,
               itemBuilder: (context, index) {
-                Map thisStock = stocks[index];
                 return ListTile(
-                  title: Text('${thisStock['symbol']}'),
-                  subtitle: Text('${thisStock['name']}'),
+                  title: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(stocks[index]['exchange'],style: TextStyle(fontWeight: FontWeight.bold),),
+                      Text(stocks[index]['symbol'])
+                    ],
+                  ),
+                  subtitle: Text(stocks[index]['name']),
                 );
               }
             );
