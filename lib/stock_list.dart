@@ -1,5 +1,5 @@
-import 'package:api_example/services/stock.dart';
 import 'package:api_example/services/stock_controller.dart';
+import 'package:api_example/watch_list_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -17,6 +17,14 @@ class _StockListState extends State<StockList> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          IconButton(onPressed: (){
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => WatchListPage())
+            );
+          }, icon: Icon(Icons.arrow_forward))
+        ],
         title: Text("Stock List"),
         centerTitle: true,
       ),
@@ -32,15 +40,24 @@ class _StockListState extends State<StockList> {
             return ListView.builder(
               itemCount: stocks.length,
               itemBuilder: (context, index) {
-                return ListTile(
-                  title: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(stocks[index]['exchange'],style: TextStyle(fontWeight: FontWeight.bold),),
-                      Text(stocks[index]['symbol'])
-                    ],
+                return Card(
+                  child: ListTile(
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(stocks[index]['exchange'],style: TextStyle(fontWeight: FontWeight.bold),),
+                        Text(stocks[index]['symbol'])
+                      ],
+                    ),
+                    subtitle: Text(stocks[index]['name']),
+                    trailing: ElevatedButton(
+                      child: Icon(Icons.add,),
+                      onPressed: (){
+                        WatchList watchList = WatchList();
+                        watchList.getStock(stocks[index]['symbol'], stocks[index]['name'], stocks[index]['exchange']);
+                      },
+                    ),
                   ),
-                  subtitle: Text(stocks[index]['name']),
                 );
               }
             );
